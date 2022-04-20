@@ -27,4 +27,14 @@ describe('BoardController (e2e)', () => {
     request(app.getHttpServer()).post('/board/resize').send({size: 5}).expect(200);
   });
 
+  it('/ (GET) gets resize board correctly', () => {
+    return request(app.getHttpServer()).get('/board').expect(200).expect([
+      [0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0]
+    ]);
+  });
+
 });
