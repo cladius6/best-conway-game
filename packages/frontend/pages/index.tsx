@@ -1,7 +1,11 @@
 export function Index() {
   return (
     <>
-      <h1>Best conway game</h1>
+      <div className="container mx-auto px-4">
+        <h1 className="text-3xl dark:text-white font-bold underline">
+          Best conway game
+        </h1>
+      </div>
     </>
   );
 }
