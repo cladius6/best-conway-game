@@ -3,18 +3,19 @@ import { useEffect, useState } from 'react';
 import { GofAPI, IBoard } from '../helpers/gofAPI';
 import styles from './index.module.css';
 export function Index() {
-  const [numberOfRows, setNumberOfRows] = useState(3);
-  const [numberOfCols, setNumberOfCols] = useState(3);
+  const [numberOfCols, _setNumberOfCols] = useState(3);
   const [count, setCount] = useState(0);
-  const [test, setTest] = useState();
   const [intervalId, setIntervalId] = useState<NodeJS.Timeout>(null);
   const [board, setBoard] = useState<IBoard | any>(null);
+  const [isGameReset, setIsGameReset] = useState(false);
+  const [tickInterval, _setTickInterval] = useState<number>(100);
 
   useEffect(() => {
     GofAPI.getBoard().then((newBoard) => setBoard(newBoard));
-  }, []);
+    setIsGameReset(false);
+  }, [isGameReset]);
 
-  const playGameOfLife = () => {
+  const tickGameOfLife = () => {
     GofAPI.tick().then((newBoard) => setBoard(newBoard));
     setCount((prevCount) => prevCount + 1);
   };
@@ -23,26 +24,31 @@ export function Index() {
     const newIntervalId = setInterval(() => {
       GofAPI.tick().then((newBoard) => setBoard(newBoard));
       setCount((prevCount) => prevCount + 1);
-    }, 50);
+    }, tickInterval);
     setIntervalId(newIntervalId);
   };
 
-  // const pauseGameOfLife = () => {
-  //   if (intervalId) {
-  //     clearInterval(intervalId);
-  //     setIntervalId(null);
-  //     return;
-  //   }
-  //   const newIntervalId = setInterval(() => {
-  //     setCount((prevCount) => prevCount + 1);
-  //   }, 1000);
-  //   setIntervalId(newIntervalId);
-  // };
-  // const resetGameOfLife = () => {
-  //   const newGame = new GameOfLife(GameOfLife.generateBoard(numRows));
-  //   setGrid(newGame.getBoard());
-  //   setCount(0);
-  // };
+  const pauseGameOfLife = () => {
+    if (intervalId) {
+      clearInterval(intervalId);
+      setIntervalId(null);
+      return;
+    }
+    const newIntervalId = setInterval(() => {
+      setCount((prevCount) => prevCount + 1);
+    }, tickInterval);
+    setIntervalId(newIntervalId);
+  };
+
+  const resetGameOfLife = () => {
+    if (intervalId) {
+      clearInterval(intervalId);
+      setIntervalId(null);
+      return;
+    }
+    setIsGameReset(() => true);
+    setCount(0);
+  };
 
   /*
    * Replace the elements below with your own.
@@ -86,10 +92,10 @@ export function Index() {
               )}
           </div>
 
-          <button onClick={playGameOfLife}>PLAY</button>
+          <button onClick={tickGameOfLife}>PLAY</button>
           <button onClick={autoTickGameOfLife}>AUTO</button>
-          {/* <button onClick={pauseGameOfLife}>PAUSE</button> */}
-          {/* <button onClick={resetGameOfLife}>RESET</button> */}
+          <button onClick={pauseGameOfLife}>PAUSE</button>
+          <button onClick={resetGameOfLife}>RESET</button>
 
           <p id="love">
             Carefully crafted with
