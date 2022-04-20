@@ -1,12 +1,12 @@
-import {IsInt, IsPositive} from "class-validator";
-import {ISetCell} from '@conway-game/interfaces';
+import { IsInt, Min } from 'class-validator';
+import { ISetCell } from '@conway-game/interfaces';
 
-export class SetCellDto implements ISetCell{
+export class SetCellDto implements ISetCell {
   @IsInt()
-  @IsPositive()
+  @Min(0)
   row: number;
 
   @IsInt()
-  @IsPositive()
+  @Min(0)
   col: number;
 }
