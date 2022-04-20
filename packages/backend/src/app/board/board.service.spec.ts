@@ -53,4 +53,13 @@ describe('BoardService', () => {
       [0, 0, 0],
     ]);
   });
+
+  it('should resize the board correctly', async () => {
+    await service.resizeBoard(2, 2);
+    const board = await service.getBoard()
+    expect(board).toEqual([
+      [0, 0],
+      [0, 0],
+    ]);
+  });
 });

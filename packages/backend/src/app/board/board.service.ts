@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import {Board} from "../../../../game-of-life/src/board";
+import { Board } from "@conway-game/game-of-life"
 
 @Injectable()
 export class BoardService {
@@ -20,4 +20,7 @@ export class BoardService {
     this.board.tick();
   }
 
+  resizeBoard(width: number, height: number): void {
+    this.board.resize(width, height);
+  }
 }
