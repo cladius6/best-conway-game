@@ -74,12 +74,9 @@ export function Index() {
         <div className="py-6">
           <button
             className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded w-32"
-            onClick={() => {
-              fetch('/api/board/tick')
-                .then((res) => res.json())
-                .then((data) => {
-                  setBoard(data);
-                });
+            onClick={async () => {
+              const board = await api.tick();
+              setBoard(board);
             }}
           >
             tick

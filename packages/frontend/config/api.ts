@@ -25,8 +25,14 @@ async function setBoardCells(cells: number[][]) {
   });
 }
 
+async function tick() {
+  const res = await fetch('/api/board/tick');
+  return await res.json();
+}
+
 export const api = {
   resizeBoard,
   getBoard,
   setBoardCells,
+  tick,
 };
