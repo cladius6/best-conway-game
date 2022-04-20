@@ -1,4 +1,4 @@
-import {Body, Controller, Get, Post} from '@nestjs/common';
+import {Body, Controller, Get, Post, Put} from '@nestjs/common';
 import {BoardService} from "./board.service";
 
 @Controller('board')
@@ -14,5 +14,11 @@ export class BoardController {
   resizeBoard(@Body('size') size: number): string{
     this.boardService.resizeBoard(size, size);
     return 'Board resized';
+  }
+
+  @Put('cell')
+  setCell(@Body('x') x: number, @Body('y') y: number): string{
+    this.boardService.setCell(x, y);
+    return 'Cell set';
   }
 }
