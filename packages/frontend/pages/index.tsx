@@ -1,40 +1,36 @@
 import { useEffect, useState } from 'react';
+import { api } from '../config/api';
 
 export function Index() {
   const [board, setBoard] = useState([]);
   const [isBoardLoaded, setIsBoardLoaded] = useState(false);
 
   useEffect(() => {
-    fetch('/api/board/resize', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ size: 10 }),
-    });
+    fetchResizeBoard();
+    fetchSetCells();
+    fetchBoard();
 
-    fetch('/api/board/cells', {
-      method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        cells: [
-          [0, 1],
-          [1, 2],
-          [2, 0],
-          [2, 1],
-          [2, 2],
-        ],
-      }),
-    });
+    async function fetchResizeBoard() {
+      await api.resizeBoard(10);
+    }
 
-    fetch('/api/board')
-      .then((res) => res.json())
-      .then((data) => {
-        setBoard(data);
-        setIsBoardLoaded(true);
-      });
+    async function fetchSetCells() {
+      const cellsToSet = [
+        [0, 1],
+        [1, 2],
+        [2, 0],
+        [2, 1],
+        [2, 2],
+      ];
+
+      await api.setBoardCells(cellsToSet);
+    }
+
+    async function fetchBoard() {
+      const board = await api.getBoard();
+      setBoard(board);
+      setIsBoardLoaded(true);
+    }
   }, []);
 
   if (!isBoardLoaded) {
