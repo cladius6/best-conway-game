@@ -16,9 +16,9 @@ export type INumberOfNeighbors = 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8;
 export type IBoard = ICellState[][];
 
 export class GofAPI {
-  static localUrl = 'http://localhost::3333/api/board';
+  private localUrl = 'http://localhost:3333/api/board';
 
-  static postJson(url: string, method: string, data: any) {
+  private postJson(url: string, method: string, data: any) {
     return fetch(url, {
       body: JSON.stringify(data),
       method: method,
@@ -28,12 +28,12 @@ export class GofAPI {
     });
   }
 
-  static async getBoard() {
+  public async getBoard() {
     const response = await fetch(this.localUrl);
     return response.json();
   }
 
-  static async resizeBoard(body: { size: number }) {
+  public async resizeBoard(body: { size: number }) {
     const response = await this.postJson(
       `${this.localUrl}/resize`,
       'POST',
@@ -42,7 +42,7 @@ export class GofAPI {
     return response.json();
   }
 
-  static async setAliveCell(body: { row: number; col: number }) {
+  public async setAliveCell(body: { row: number; col: number }) {
     const response = await this.postJson(
       `${this.localUrl}/resize`,
       'PUT',
@@ -51,13 +51,19 @@ export class GofAPI {
     return response.json();
   }
 
-  static async tick() {
+  public async tick() {
     const response = await fetch(`${this.localUrl}/tick`);
     return response.json();
   }
 
-  static async setBoard(body: { cells: IBoard }) {
+  public async setBoard(body: { cells: IBoard }) {
     const response = await this.postJson(`${this.localUrl}/cells`, 'PUT', body);
     return response.json();
   }
 }
+
+export const getBoard = async () => {
+  const localUrl = 'localhost:3333/api/board';
+  const response = await fetch(localUrl);
+  return response.json();
+};

@@ -1,52 +1,69 @@
 // import { GameOfLife, IBoard } from '@game-of-life-new/gof-tsc';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { getBoard, GofAPI, IBoard } from '../helpers/gofAPI';
 import styles from './index.module.css';
 
 export function Index() {
-  const numRows = 40;
-  const numCols = 40;
+  // const numRows = 40;
+  // const numCols = 40;
 
   const [count, setCount] = useState(0);
-  const [intervalId, setIntervalId] = useState<NodeJS.Timeout>(null);
+  const [test, setTest] = useState();
+  // const [intervalId, setIntervalId] = useState<NodeJS.Timeout>(null);
 
-  const [grid, setGrid] = useState<IBoard>(() => {
-    return GameOfLife.generateBoard(numRows);
-  });
+  // const [grid, setGrid] = useState<IBoard>(() => {
+  //   // return GameOfLife.generateBoard(numRows);
+  // });
 
-  const playGameOfLife = () => {
-    const newGame = new GameOfLife(grid);
-    setGrid(newGame.tick().getBoard());
-    setCount((prevCount) => prevCount + 1);
-  };
+  // useEffect(() => {
+  //   getBoard().then((board) => {
+  //     setTest(board);
+  //     console.log(board);
+  //   });
+  // }, []);
 
-  const autoPlayGameOfLife = () => {
-    const newGame = new GameOfLife(grid);
-    const newIntervalId = setInterval(() => {
-      setGrid(newGame.tick().getBoard());
-      setCount((prevCount) => prevCount + 1);
-    }, 50);
+  useEffect(() => {
+    const game = new GofAPI();
+    game.getBoard().then((board) => {
+      setTest(board);
+      console.log(board);
+    });
+  }, []);
 
-    setIntervalId(newIntervalId);
-  };
+  // const playGameOfLife = () => {
+  //   const newGame = new GameOfLife(grid);
+  //   setGrid(newGame.tick().getBoard());
+  //   setCount((prevCount) => prevCount + 1);
+  // };
 
-  const pauseGameOfLife = () => {
-    if (intervalId) {
-      clearInterval(intervalId);
-      setIntervalId(null);
-      return;
-    }
+  // const autoPlayGameOfLife = () => {
+  //   const newGame = new GameOfLife(grid);
+  //   const newIntervalId = setInterval(() => {
+  //     setGrid(newGame.tick().getBoard());
+  //     setCount((prevCount) => prevCount + 1);
+  //   }, 50);
 
-    const newIntervalId = setInterval(() => {
-      setCount((prevCount) => prevCount + 1);
-    }, 1000);
-    setIntervalId(newIntervalId);
-  };
+  //   setIntervalId(newIntervalId);
+  // };
 
-  const resetGameOfLife = () => {
-    const newGame = new GameOfLife(GameOfLife.generateBoard(numRows));
-    setGrid(newGame.getBoard());
-    setCount(0);
-  };
+  // const pauseGameOfLife = () => {
+  //   if (intervalId) {
+  //     clearInterval(intervalId);
+  //     setIntervalId(null);
+  //     return;
+  //   }
+
+  //   const newIntervalId = setInterval(() => {
+  //     setCount((prevCount) => prevCount + 1);
+  //   }, 1000);
+  //   setIntervalId(newIntervalId);
+  // };
+
+  // const resetGameOfLife = () => {
+  //   const newGame = new GameOfLife(GameOfLife.generateBoard(numRows));
+  //   setGrid(newGame.getBoard());
+  //   setCount(0);
+  // };
 
   /*
    * Replace the elements below with your own.
@@ -65,7 +82,7 @@ export function Index() {
             </h1>
           </div>
 
-          <div>Number of ticks {count}</div>
+          {/* <div>Number of ticks {count && count}</div>
           <div
             style={{
               display: 'grid',
@@ -88,12 +105,12 @@ export function Index() {
                   />
                 ))
               )}
-          </div>
+          </div> */}
 
-          <button onClick={playGameOfLife}>PLAY</button>
+          {/* <button onClick={playGameOfLife}>PLAY</button>
           <button onClick={autoPlayGameOfLife}>AUTO</button>
           <button onClick={pauseGameOfLife}>PAUSE</button>
-          <button onClick={resetGameOfLife}>RESET</button>
+          <button onClick={resetGameOfLife}>RESET</button> */}
 
           <p id="love">
             Carefully crafted with
