@@ -23,7 +23,7 @@ export function Index() {
         [2, 2],
       ];
 
-      await api.setBoardCells(cellsToSet);
+      await api.setCells(cellsToSet);
     }
 
     async function fetchBoard() {
@@ -57,6 +57,12 @@ export function Index() {
                     return (
                       <td
                         key={cellIndex}
+                        onClick={async () => {
+                          // TODO (hub33k): after tick() new added cells disappear
+                          await api.setCell(rowIndex, cellIndex);
+                          const board = await api.getBoard();
+                          setBoard(board);
+                        }}
                         className={`cell border border-slate-700 text-center w-10 h-5 ${
                           cell
                             ? 'bg-slate-700 text-white border-slate-300'
