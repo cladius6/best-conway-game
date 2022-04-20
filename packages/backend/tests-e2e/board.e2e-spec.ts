@@ -78,4 +78,19 @@ describe('BoardController (e2e)', () => {
       [0, 0, 0, 0, 0]
     ])
   });
+
+  it('/resize (POST) should fail if size is negative', async () => {
+    const response = await request(app.getHttpServer()).post('/board/resize').send({size: -5});
+    expect(response.status).toBe(400);
+  });
+
+  it('/resize (POST) should fail if size is not a number', async () => {
+    const response = await request(app.getHttpServer()).post('/board/resize').send({size: 'a'});
+    expect(response.status).toBe(400);
+  });
+
+  it('/resize (POST) should fail if size is not an integer', async () => {
+    const response = await request(app.getHttpServer()).post('/board/resize').send({size: 1.5});
+    expect(response.status).toBe(400);
+  });
 });
