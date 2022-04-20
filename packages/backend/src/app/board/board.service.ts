@@ -16,4 +16,8 @@ export class BoardService {
     this.board.setCell(x, y);
   }
 
+  tick(): void {
+    this.board.tick();
+  }
+
 }

@@ -34,4 +34,23 @@ describe('BoardService', () => {
       [0, 0, 0],
     ]);
   });
+
+  it('should tick the board correctly', async () => {
+    let board = await service.getBoard();
+    await service.setCell(0, 0);
+    await service.setCell(1, 1);
+    await service.setCell(2, 2);
+    expect(board).toEqual([
+      [1, 0, 0],
+      [0, 1, 0],
+      [0, 0, 1],
+    ]);
+    await service.tick();
+    board = await service.getBoard()
+    expect(board).toEqual([
+      [0, 0, 0],
+      [0, 1, 0],
+      [0, 0, 0],
+    ]);
+  });
 });
