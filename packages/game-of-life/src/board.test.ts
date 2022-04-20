@@ -47,4 +47,17 @@ describe("Board", () => {
       [0, 0, 0],
     ]);
   });
+
+  it('should resize the board correctly', () => {
+    const board = new Board(3, 3);
+    board.resize(5, 5);
+    console.log(board.board);
+    expect(board.board).toEqual([
+      [0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0],
+    ]);
+  });
 });

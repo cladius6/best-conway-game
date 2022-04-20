@@ -8,18 +8,27 @@ export class Board {
   constructor(w: number, h: number) {
     this.w = w;
     this.h = h;
-    this.initBoard();
+    this.initBoard(w, h);
   }
 
   get board(): number[][] {
     return this._board;
   }
+
+  set board(board: number[][]) {
+    this._board = board;
+  }
+
   setCell(x: number, y: number): void {
     this.board[x][y] === 1 ? (this._board[x][y] = 0) : (this._board[x][y] = 1);
   }
 
-  private initBoard(): void {
-    this._board = Array.from(Array(this.w), () => Array(this.h).fill(0));
+  resize(w: number, h: number): void {
+   this.initBoard(w, h);
+  }
+
+  private initBoard(w: number, h: number): void {
+    this.board = Array.from(Array(w), () => Array(h).fill(0));
   }
 
   private getNeighbors(x: number, y: number): number {
