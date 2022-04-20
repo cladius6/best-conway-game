@@ -19,13 +19,14 @@ export function Index() {
     setCount((prevCount) => prevCount + 1);
   };
 
-  // const autoPlayGameOfLife = () => {
-  //   const newIntervalId = setInterval(() => {
-  //     GofAPI.tick().then((newBoard) => setBoard(newBoard));
-  //     setCount((prevCount) => prevCount + 1);
-  //   }, 50);
-  //   setIntervalId(newIntervalId);
-  // };
+  const autoTickGameOfLife = () => {
+    const newIntervalId = setInterval(() => {
+      GofAPI.tick().then((newBoard) => setBoard(newBoard));
+      setCount((prevCount) => prevCount + 1);
+    }, 50);
+    setIntervalId(newIntervalId);
+  };
+
   // const pauseGameOfLife = () => {
   //   if (intervalId) {
   //     clearInterval(intervalId);
@@ -86,7 +87,7 @@ export function Index() {
           </div>
 
           <button onClick={playGameOfLife}>PLAY</button>
-          {/* <button onClick={autoPlayGameOfLife}>AUTO</button> */}
+          <button onClick={autoTickGameOfLife}>AUTO</button>
           {/* <button onClick={pauseGameOfLife}>PAUSE</button> */}
           {/* <button onClick={resetGameOfLife}>RESET</button> */}
 
