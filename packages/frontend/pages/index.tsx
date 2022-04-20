@@ -38,7 +38,11 @@ export function Index() {
   }, []);
 
   if (!isBoardLoaded) {
-    return <div>Loading...</div>;
+    return (
+      <div className="container mx-auto px-4">
+        <p className="dark:text-white text-center text-2xl m-8">Loading...</p>
+      </div>
+    );
   }
 
   return (
