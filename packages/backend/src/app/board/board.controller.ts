@@ -1,6 +1,7 @@
 import {Body, Controller, Get, Post, Put, UsePipes, ValidationPipe} from '@nestjs/common';
 import {BoardService} from "./board.service";
 import {ResizeBoardDto} from "./dto/resize-board.dto";
+import {SetCellDto} from "./dto/set-cell.dto";
 
 @Controller('board')
 export class BoardController {
@@ -19,8 +20,9 @@ export class BoardController {
   }
 
   @Put('cell')
-  setCell(@Body('x') x: number, @Body('y') y: number): string{
-    this.boardService.setCell(x, y);
+  @UsePipes(new ValidationPipe({ transform: true }))
+  setCell(@Body() data: SetCellDto): string {
+    this.boardService.setCell(data.row, data.col);
     return 'Cell set';
   }
 

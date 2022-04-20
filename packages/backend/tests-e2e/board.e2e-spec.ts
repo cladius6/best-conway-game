@@ -40,13 +40,13 @@ describe('BoardController (e2e)', () => {
   });
 
   it('/ (PUT) sets cell correctly', async () => {
-    const response = await request(app.getHttpServer()).put('/board/cell').send({x: 1, y: 1})
+    const response = await request(app.getHttpServer()).put('/board/cell').send({row: 1, col: 1})
     expect(response.status).toBe(200);
   });
 
   it('/ (GET) gets board correctly after setting cell', async () => {
     await request(app.getHttpServer()).post('/board/resize').send({size: 5});
-    await request(app.getHttpServer()).put('/board/cell').send({x: 1, y: 1})
+    await request(app.getHttpServer()).put('/board/cell').send({row: 1, col: 1})
     const response = await request(app.getHttpServer()).get('/board');
     console.log(response.body)
     expect(response.status).toBe(200);
@@ -61,19 +61,19 @@ describe('BoardController (e2e)', () => {
 
   it('/tick (GET) gets board correctly after tick', async () => {
     await request(app.getHttpServer()).post('/board/resize').send({size: 5});
-    await request(app.getHttpServer()).put('/board/cell').send({x: 0, y: 2})
-    await request(app.getHttpServer()).put('/board/cell').send({x: 1, y: 0})
-    await request(app.getHttpServer()).put('/board/cell').send({x: 1, y: 1})
-    await request(app.getHttpServer()).put('/board/cell').send({x: 2, y: 1})
-    await request(app.getHttpServer()).put('/board/cell').send({x: 3, y: 2})
+    await request(app.getHttpServer()).put('/board/cell').send({row: 1, col: 2})
+    await request(app.getHttpServer()).put('/board/cell').send({row: 1, col: 0})
+    await request(app.getHttpServer()).put('/board/cell').send({row: 1, col: 1})
+    await request(app.getHttpServer()).put('/board/cell').send({row: 2, col: 1})
+    await request(app.getHttpServer()).put('/board/cell').send({row: 3, col: 2})
     let response = await request(app.getHttpServer()).get('/board');
     console.log(response.body)
-    response = await request(app.getHttpServer()).get('/board/tick');
-    console.log(response.body)
-    expect(response.body).toEqual([
-      [0, 1, 0, 0, 0],
-      [1, 1, 1, 0, 0],
-      [1, 1, 0, 0, 0],
+    const response2 = await request(app.getHttpServer()).get('/board/tick');
+    console.log(response2.body)
+    expect(response2.body).toEqual([
+      [0, 0, 0, 0, 0],
+      [0, 1, 1, 0, 0],
+      [0, 1, 1, 0, 0],
       [0, 0, 0, 0, 0],
       [0, 0, 0, 0, 0]
     ])
@@ -91,6 +91,21 @@ describe('BoardController (e2e)', () => {
 
   it('/resize (POST) should fail if size is not an integer', async () => {
     const response = await request(app.getHttpServer()).post('/board/resize').send({size: 1.5});
+    expect(response.status).toBe(400);
+  });
+
+  it('/cell (PUT) should fail if x is negative', async () => {
+    const response = await request(app.getHttpServer()).put('/board/cell').send({x: -1, y: 1});
+    expect(response.status).toBe(400);
+  });
+
+  it('/cell (PUT) should fail if x is not a number', async () => {
+    const response = await request(app.getHttpServer()).put('/board/cell').send({x: 'a', y: 1});
+    expect(response.status).toBe(400);
+  });
+
+  it('/cell (PUT) should fail if x is not an integer', async () => {
+    const response = await request(app.getHttpServer()).put('/board/cell').send({x: 1.5, y: 1});
     expect(response.status).toBe(400);
   });
 });

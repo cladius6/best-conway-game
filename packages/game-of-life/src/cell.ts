@@ -12,11 +12,11 @@ export class Cell {
   }
 
   tick() {
-    if (this.active) {
+    if (this._active) {
       if (this._neighbors < 2 || this._neighbors > 3) {
         this._active = false;
       }
-    }else{
+    } else {
       if (this._neighbors === 3) {
         this._active = true;
       }
