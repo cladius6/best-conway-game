@@ -15,4 +15,13 @@ describe('BoardService', () => {
   it('should be defined', () => {
     expect(service).toBeDefined();
   });
+
+  it('should return board correctly', async () => {
+    const board = await service.getBoard();
+    expect(board).toEqual([
+      [0, 0, 0],
+      [0, 0, 0],
+      [0, 0, 0],
+    ]);
+  });
 });
