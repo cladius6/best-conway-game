@@ -6,6 +6,7 @@
     "frontend-2": "packages/frontend-2",
     "frontend-2-e2e": "packages/frontend-2-e2e",
     "frontend-e2e": "packages/frontend-e2e",
-    "game-of-life": "packages/game-of-life"
+    "game-of-life": "packages/game-of-life",
+    "interfaces": "packages/interfaces"
   }
 }

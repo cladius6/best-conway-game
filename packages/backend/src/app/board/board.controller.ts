@@ -26,9 +26,16 @@ export class BoardController {
     return 'Cell set';
   }
 
+  @Put('cells')
+  setCells(@Body() data): string {
+    this.boardService.setCells(data.cells);
+    return 'Cells set';
+  }
+
   @Get('tick')
   tick(): number[][]{
     this.boardService.tick();
     return this.boardService.getBoard();
   }
+
 }

@@ -1,5 +1,5 @@
-import {ISetCell} from "../interfaces/cell.interface";
 import {IsInt, IsPositive} from "class-validator";
+import {ISetCell} from '@conway-game/interfaces';
 
 export class SetCellDto implements ISetCell{
   @IsInt()

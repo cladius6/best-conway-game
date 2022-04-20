@@ -95,17 +95,33 @@ describe('BoardController (e2e)', () => {
   });
 
   it('/cell (PUT) should fail if x is negative', async () => {
-    const response = await request(app.getHttpServer()).put('/board/cell').send({x: -1, y: 1});
+    const response = await request(app.getHttpServer()).put('/board/cell').send({row: -1, col: 1});
     expect(response.status).toBe(400);
   });
 
   it('/cell (PUT) should fail if x is not a number', async () => {
-    const response = await request(app.getHttpServer()).put('/board/cell').send({x: 'a', y: 1});
+    const response = await request(app.getHttpServer()).put('/board/cell').send({row: 'a', col: 1});
     expect(response.status).toBe(400);
   });
 
   it('/cell (PUT) should fail if x is not an integer', async () => {
-    const response = await request(app.getHttpServer()).put('/board/cell').send({x: 1.5, y: 1});
+    const response = await request(app.getHttpServer()).put('/board/cell').send({row: 1.5, col: 1});
     expect(response.status).toBe(400);
+  });
+
+  it('/cells (PUT) should add cells correctly', async () => {
+    const response = await request(app.getHttpServer()).put('/board/cells').send({cells :[
+      [1, 1],
+      [1, 2],
+      [2, 1],
+      [2, 2]
+    ]});
+    const response2 = await request(app.getHttpServer()).get('/board');
+    expect(response2.body).toEqual([
+      [0, 0, 0],
+      [0, 1, 1],
+      [0, 1, 1],
+    ])
+    expect(response.status).toBe(200);
   });
 });

@@ -62,4 +62,17 @@ describe('BoardService', () => {
       [0, 0],
     ]);
   });
+
+  it('should set cells in the board correctly', async () => {
+    await service.setCells([
+      [0, 0],
+      [1, 0],
+    ]);
+    const board = await service.getBoard()
+    expect(board).toEqual([
+      [1, 0, 0],
+      [1, 0, 0],
+      [0, 0, 0],
+    ]);
+  });
 });
