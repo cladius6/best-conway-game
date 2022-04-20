@@ -1,11 +1,20 @@
 import { Injectable } from '@nestjs/common';
 import { Board } from "@conway-game/game-of-life"
+import {IBoards} from "@conway-game/interfaces";
 
 @Injectable()
 export class BoardService {
-  board: Board;
+  board: Board = undefined;
+  boards: IBoards[];
+  id: number = 0;
   constructor() {
-    this.board = new Board(3, 3);
+    if (this.boards === undefined) {
+      this.board = new Board(3, 3);
+    }
+  }
+
+  createAdditionalBoard(row: number, col: number): void {
+    this.boards.push({id: this.id+1, board: new Board(row, col)});
   }
 
   getBoard(): number[][] {
@@ -25,6 +34,6 @@ export class BoardService {
   }
 
   resizeBoard(width: number, height: number): void {
-    this.board.resize(width, height);
+    this.board = new Board(width, height);
   }
 }

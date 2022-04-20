@@ -51,13 +51,30 @@ describe("Board", () => {
   it('should resize the board correctly', () => {
     const board = new Board(3, 3);
     board.resize(5, 5);
-    console.log(board.board);
     expect(board.board).toEqual([
       [0, 0, 0, 0, 0],
       [0, 0, 0, 0, 0],
       [0, 0, 0, 0, 0],
       [0, 0, 0, 0, 0],
       [0, 0, 0, 0, 0],
+    ]);
+  });
+
+  it('should correctly tick the board', () => {
+    const board = new Board(4, 3);
+    board.setCell(0, 1);
+    console.log(board.getNeighbors(0, 1));
+    board.setCell(1, 2);
+    board.setCell(2, 0);
+    board.setCell(2, 1);
+    board.setCell(2, 2);
+    board.tick();
+    console.log(board.board);
+    expect(board.board).toEqual([
+      [0, 0, 0],
+      [1, 0, 1],
+      [0, 1, 1],
+      [0, 1, 0],
     ]);
   });
 });

@@ -36,23 +36,26 @@ export class Board {
       this.setCell(cell[0], cell[1]);
     });
   }
-
-  private getNeighbors(x: number, y: number): number {
-    let countNeighbors = 0;
-    for (let i = x - 1; i <= x + 1; i++) {
-      for (let j = y - 1; j <= y + 1; j++) {
+  getNeighbors(row: number, col: number): number {
+    let count = 0;
+    for (let i = row - 1; i <= row + 1; i++) {
+      for (let j = col - 1; j <= col + 1; j++) {
         if (
-          i >= 0 &&
-          i < this.w &&
-          j >= 0 &&
-          j < this.h &&
-          !(i === x && j === y)
+          (i === row && j === col) ||
+          i < 0 ||
+          j < 0 ||
+          i >= this.w ||
+          j >= this.h
         ) {
-          countNeighbors += this._board[i][j];
+          continue;
+        }
+
+        if (this.board[i][j] === 1) {
+          count++;
         }
       }
     }
-    return countNeighbors;
+    return count;
   }
 
   private createCell(value: number, neighbors: number): Cell {

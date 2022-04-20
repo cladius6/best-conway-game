@@ -124,4 +124,29 @@ describe('BoardController (e2e)', () => {
     ])
     expect(response.status).toBe(200);
   });
+
+  it.only('/cells (PUT) should correctly create gilder', async () => {
+    await request(app.getHttpServer()).post('/board/resize').send({size: 10});
+    const response = await request(app.getHttpServer()).put('/board/cells').send({cells :[
+      [0, 2],
+      [1, 0],
+      [1, 2],
+      [2, 1],
+      [2, 2],
+    ]});
+    const response2 = await request(app.getHttpServer()).get('/board/tick');
+    expect(response2.body).toEqual([
+      [0, 1, 0, 0,0,0,0,0,0,0],
+      [0, 0, 1, 1,0,0,0,0,0,0],
+      [0, 1, 1, 0,0,0,0,0,0,0],
+      [0, 0, 0, 0,0,0,0,0,0,0],
+      [0, 0, 0, 0,0,0,0,0,0,0],
+      [0, 0, 0, 0,0,0,0,0,0,0],
+      [0, 0, 0, 0,0,0,0,0,0,0],
+      [0, 0, 0, 0,0,0,0,0,0,0],
+      [0, 0, 0, 0,0,0,0,0,0,0],
+      [0, 0, 0, 0,0,0,0,0,0,0],
+    ])
+    expect(response.status).toBe(200);
+  });
 });
