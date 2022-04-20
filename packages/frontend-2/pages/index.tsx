@@ -1,64 +1,42 @@
 // import { GameOfLife, IBoard } from '@game-of-life-new/gof-tsc';
 import { useEffect, useState } from 'react';
-import { getBoard, GofAPI, IBoard } from '../helpers/gofAPI';
+import { GofAPI, IBoard } from '../helpers/gofAPI';
 import styles from './index.module.css';
-
 export function Index() {
-  // const numRows = 40;
-  // const numCols = 40;
-
+  const [numberOfRows, setNumberOfRows] = useState(3);
+  const [numberOfCols, setNumberOfCols] = useState(3);
   const [count, setCount] = useState(0);
   const [test, setTest] = useState();
-  // const [intervalId, setIntervalId] = useState<NodeJS.Timeout>(null);
-
-  // const [grid, setGrid] = useState<IBoard>(() => {
-  //   // return GameOfLife.generateBoard(numRows);
-  // });
-
-  // useEffect(() => {
-  //   getBoard().then((board) => {
-  //     setTest(board);
-  //     console.log(board);
-  //   });
-  // }, []);
+  const [intervalId, setIntervalId] = useState<NodeJS.Timeout>(null);
+  const [board, setBoard] = useState<IBoard | any>(null);
 
   useEffect(() => {
-    const game = new GofAPI();
-    game.getBoard().then((board) => {
-      setTest(board);
-      console.log(board);
-    });
+    GofAPI.getBoard().then((newBoard) => setBoard(newBoard));
   }, []);
 
-  // const playGameOfLife = () => {
-  //   const newGame = new GameOfLife(grid);
-  //   setGrid(newGame.tick().getBoard());
-  //   setCount((prevCount) => prevCount + 1);
-  // };
+  const playGameOfLife = () => {
+    GofAPI.tick().then((newBoard) => setBoard(newBoard));
+    setCount((prevCount) => prevCount + 1);
+  };
 
   // const autoPlayGameOfLife = () => {
-  //   const newGame = new GameOfLife(grid);
   //   const newIntervalId = setInterval(() => {
-  //     setGrid(newGame.tick().getBoard());
+  //     GofAPI.tick().then((newBoard) => setBoard(newBoard));
   //     setCount((prevCount) => prevCount + 1);
   //   }, 50);
-
   //   setIntervalId(newIntervalId);
   // };
-
   // const pauseGameOfLife = () => {
   //   if (intervalId) {
   //     clearInterval(intervalId);
   //     setIntervalId(null);
   //     return;
   //   }
-
   //   const newIntervalId = setInterval(() => {
   //     setCount((prevCount) => prevCount + 1);
   //   }, 1000);
   //   setIntervalId(newIntervalId);
   // };
-
   // const resetGameOfLife = () => {
   //   const newGame = new GameOfLife(GameOfLife.generateBoard(numRows));
   //   setGrid(newGame.getBoard());
@@ -70,47 +48,47 @@ export function Index() {
    *
    * Note: The corresponding styles are in the ./index.css file.
    */
+
   return (
-    <div className={styles.page}>
+    <div className={styles.page} onClick={() => console.log(board)}>
       <div className="wrapper">
         <div className="container">
           <div id="welcome">
             <h1>
               <span> Hello there, </span>
               Welcome gof-next 👋
-              {}
             </h1>
           </div>
 
-          {/* <div>Number of ticks {count && count}</div>
+          <div>Number of ticks {count && count}</div>
           <div
             style={{
               display: 'grid',
-              gridTemplateColumns: `repeat(${numCols}, 20px)`,
+              gridTemplateColumns: `repeat(${numberOfCols}, 20px)`,
               width: 'fit-content',
               margin: '0 auto',
             }}
           >
-            {grid &&
-              grid.map((rows, i) =>
+            {board &&
+              board.map((rows, i) =>
                 rows.map((_col, k) => (
                   <div
                     key={`${i}-${k}`}
                     style={{
                       width: 20,
                       height: 20,
-                      backgroundColor: grid[i][k] ? '#00ffa3' : undefined,
+                      backgroundColor: board[i][k] ? '#00ffa3' : undefined,
                       border: '1px solid #595959',
                     }}
                   />
                 ))
               )}
-          </div> */}
+          </div>
 
-          {/* <button onClick={playGameOfLife}>PLAY</button>
-          <button onClick={autoPlayGameOfLife}>AUTO</button>
-          <button onClick={pauseGameOfLife}>PAUSE</button>
-          <button onClick={resetGameOfLife}>RESET</button> */}
+          <button onClick={playGameOfLife}>PLAY</button>
+          {/* <button onClick={autoPlayGameOfLife}>AUTO</button> */}
+          {/* <button onClick={pauseGameOfLife}>PAUSE</button> */}
+          {/* <button onClick={resetGameOfLife}>RESET</button> */}
 
           <p id="love">
             Carefully crafted with
@@ -133,5 +111,4 @@ export function Index() {
     </div>
   );
 }
-
 export default Index;
