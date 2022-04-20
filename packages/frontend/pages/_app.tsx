@@ -6,7 +6,7 @@ function CustomApp({ Component, pageProps }: AppProps) {
   return (
     <>
       <Head>
-        <title>Welcome to frontend!</title>
+        <title>Best conway game</title>
       </Head>
       <main className="app">
         <Component {...pageProps} />
