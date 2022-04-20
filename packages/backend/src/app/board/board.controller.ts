@@ -21,4 +21,10 @@ export class BoardController {
     this.boardService.setCell(x, y);
     return 'Cell set';
   }
+
+  @Get('tick')
+  tick(): number[][]{
+    this.boardService.tick();
+    return this.boardService.getBoard();
+  }
 }

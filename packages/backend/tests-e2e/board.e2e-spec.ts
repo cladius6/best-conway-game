@@ -2,7 +2,6 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { INestApplication } from '@nestjs/common';
 import * as request from 'supertest';
 import { BoardModule } from  '../src/app/board/board.module';
-import exp = require("constants");
 
 describe('BoardController (e2e)', () => {
   let app: INestApplication;
@@ -60,4 +59,23 @@ describe('BoardController (e2e)', () => {
     ])
   });
 
+  it('/tick (GET) gets board correctly after tick', async () => {
+    await request(app.getHttpServer()).post('/board/resize').send({size: 5});
+    await request(app.getHttpServer()).put('/board/cell').send({x: 0, y: 2})
+    await request(app.getHttpServer()).put('/board/cell').send({x: 1, y: 0})
+    await request(app.getHttpServer()).put('/board/cell').send({x: 1, y: 1})
+    await request(app.getHttpServer()).put('/board/cell').send({x: 2, y: 1})
+    await request(app.getHttpServer()).put('/board/cell').send({x: 3, y: 2})
+    let response = await request(app.getHttpServer()).get('/board');
+    console.log(response.body)
+    response = await request(app.getHttpServer()).get('/board/tick');
+    console.log(response.body)
+    expect(response.body).toEqual([
+      [0, 1, 0, 0, 0],
+      [1, 1, 1, 0, 0],
+      [1, 1, 0, 0, 0],
+      [0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0]
+    ])
+  });
 });
