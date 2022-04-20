@@ -12,4 +12,8 @@ export class BoardService {
     return this.board.board;
   }
 
+  setCell(x: number, y:number): void {
+    this.board.setCell(x, y);
+  }
+
 }
