@@ -13,54 +13,19 @@ export function Index() {
       body: JSON.stringify({ size: 10 }),
     });
 
-    fetch('/api/board/cell', {
+    fetch('/api/board/cells', {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        x: 0,
-        y: 1,
-      }),
-    });
-    fetch('/api/board/cell', {
-      method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        x: 1,
-        y: 2,
-      }),
-    });
-    fetch('/api/board/cell', {
-      method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        x: 2,
-        y: 0,
-      }),
-    });
-    fetch('/api/board/cell', {
-      method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        x: 2,
-        y: 1,
-      }),
-    });
-    fetch('/api/board/cell', {
-      method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        x: 2,
-        y: 2,
+        cells: [
+          [0, 1],
+          [1, 2],
+          [2, 0],
+          [2, 1],
+          [2, 2],
+        ],
       }),
     });
 
