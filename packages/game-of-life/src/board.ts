@@ -31,6 +31,12 @@ export class Board {
     this.board = Array.from(Array(w), () => Array(h).fill(0));
   }
 
+  setCells(cells: number[][]): void {
+    cells.forEach((cell) => {
+      this.setCell(cell[0], cell[1]);
+    });
+  }
+
   private getNeighbors(x: number, y: number): number {
     let countNeighbors = 0;
     for (let i = x - 1; i <= x + 1; i++) {

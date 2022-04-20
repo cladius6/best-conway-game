@@ -20,6 +20,10 @@ export class BoardService {
     this.board.tick();
   }
 
+  setCells(cells: number[][]): void {
+    this.board.setCells(cells);
+  }
+
   resizeBoard(width: number, height: number): void {
     this.board.resize(width, height);
   }
