@@ -3,11 +3,12 @@
   "version": "0.0.0",
   "license": "MIT",
   "scripts": {
-    "build": "nx build frontend --prod && nx build backend --prod",
+    "build": "nx build frontend --prod && nx build backend --prod && nx build frontend-2 --prod",
     "build2": "nx build --prod --all",
     "build:backend": "npx nx build backend --configuration=production",
     "start:backend": "node dist/packages/backend/main.js",
-    "start:frontend": "cd dist/packages/frontend && npx next start"
+    "start:frontend": "cd dist/packages/frontend && npx next start",
+    "start:frontend-2": "cd dist/packages/frontend-2 && npx next start"
   },
   "private": true,
   "dependencies": {
