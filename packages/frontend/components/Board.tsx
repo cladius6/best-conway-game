@@ -1,11 +1,13 @@
-import { FC, useEffect, useState } from 'react';
-import { api } from '../config/api';
+import { FC, useContext, useEffect, useState } from 'react';
+import { HomePageContext } from '../pages';
 
 interface BoardProps {
   size: number;
 }
 
 const Board: FC<BoardProps> = ({ size }) => {
+  const { getBoard, resizeBoard, setCell, setCells, tick } =
+    useContext(HomePageContext);
   const [board, setBoard] = useState([]);
   const [isBoardLoaded, setIsBoardLoaded] = useState(false);
 
@@ -15,7 +17,7 @@ const Board: FC<BoardProps> = ({ size }) => {
     fetchBoard();
 
     async function fetchResizeBoard() {
-      await api.resizeBoard(size);
+      await resizeBoard(size);
     }
 
     async function fetchSetCells() {
@@ -27,11 +29,11 @@ const Board: FC<BoardProps> = ({ size }) => {
         [2, 2],
       ];
 
-      await api.setCells(cellsToSet);
+      await setCells(cellsToSet);
     }
 
     async function fetchBoard() {
-      const board = await api.getBoard();
+      const board = await getBoard();
       setBoard(board);
       setIsBoardLoaded(true);
     }
@@ -57,8 +59,8 @@ const Board: FC<BoardProps> = ({ size }) => {
                     <td
                       key={cellIndex}
                       onClick={async () => {
-                        await api.setCell(rowIndex, cellIndex);
-                        const board = await api.getBoard();
+                        await setCell(rowIndex, cellIndex);
+                        const board = await getBoard();
                         setBoard(board);
                       }}
                       className={`cell border border-slate-700 text-center w-5 h-5 ${
@@ -79,7 +81,7 @@ const Board: FC<BoardProps> = ({ size }) => {
         <button
           className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded w-32"
           onClick={async () => {
-            const board = await api.tick();
+            const board = await tick();
             setBoard(board);
           }}
         >
