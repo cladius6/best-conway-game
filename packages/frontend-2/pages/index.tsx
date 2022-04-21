@@ -25,7 +25,7 @@ export type INumberOfNeighbors = 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8;
 export type IBoard = ICellState[][];
 
 export class GofAPI extends GofAPIAbstract {
-  static localUrl = 'http://localhost:3333/api/board';
+  static localUrl = `${process.env.NEXT_PUBLIC_BACKEND}/api/board`;
 
   static postJson(url: string, method: string, data) {
     return fetch(url, {
