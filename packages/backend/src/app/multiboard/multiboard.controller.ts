@@ -11,4 +11,12 @@ export class MultiBoardController {
   async create(@Body('') data) {
     return this.multiBoardService.createBoard(data.row, data.col);
   }
+
+  @Get(':id')
+  async get(@Param('id') id) {
+    return {
+      id: id,
+      board: this.multiBoardService.getBoard(Number(id))
+    };
+  }
 }

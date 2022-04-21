@@ -6,7 +6,11 @@ import {BoardService} from "../board/board.service";
 export class MultiBoardService {
   boards: Board[] = [];
   id: number = 0;
-  constructor(private boardService: BoardService) {}
+  constructor(private boardService: BoardService) {
+    if(this.boards.length === 0) {
+      this.boards.push(this.boardService.createBoard(3, 3));
+    }
+  }
 
   createBoard(row: number, col: number): number[][] {
     const board = this.boardService.createBoard(row, col);
@@ -14,7 +18,7 @@ export class MultiBoardService {
     return board.board;
   }
 
-  getBoard(id: number): Board {
-    return this.boards[id];
+  getBoard(id: number): number[][] {
+    return this.boards[id].board;
   }
 }

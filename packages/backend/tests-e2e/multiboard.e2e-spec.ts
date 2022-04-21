@@ -15,7 +15,7 @@ describe('MultiboardController (e2e)', () => {
     await app.init();
   });
 
-  it('/1 (GET) gets board with id correctly', async () => {
+  it.only('/1 (GET) gets board with id correctly', async () => {
     await request(app.getHttpServer()).put('/multiboard').send({row: 5, col: 5});
     const response = await request(app.getHttpServer()).get('/multiboard/1');
     console.log(response.body);
