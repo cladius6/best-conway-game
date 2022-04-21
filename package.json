@@ -5,7 +5,7 @@
   "scripts": {
     "start:frontend": "cd dist/packages/frontend && npx next start",
     "start:frontend-2": "cd dist/packages/frontend-2 && npx next start",
-    "build": "nx build --prod --all"
+    "build": "nx build --prod --all && nx build frontend-2"
   },
   "private": true,
   "dependencies": {
