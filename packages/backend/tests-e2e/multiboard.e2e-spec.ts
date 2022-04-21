@@ -49,7 +49,7 @@ describe('MultiboardController (e2e)', () => {
 
   it('/cells/1 (PUT) updates board with array of cells for selected board by id correctly', async () => {
     await request(app.getHttpServer()).put('/multiboard').send({row: 5, col: 5});
-    await request(app.getHttpServer()).put('/multiboard/cells/1').send([[3,3], [4,4]]);
+    await request(app.getHttpServer()).put('/multiboard/cells/1').send({cells: [[3,3], [4,4]]});
     const response = await request(app.getHttpServer()).get('/multiboard/1');
     console.log(response.body);
     expect(response.body).toEqual({

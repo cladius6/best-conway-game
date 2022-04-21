@@ -1,6 +1,7 @@
 import {Body, Controller, Get, Param, Post, Put, UsePipes, ValidationPipe} from '@nestjs/common';
 import {MultiBoardService} from "./multiboard.service";
 import {SetCellDto} from "../board/dto/set-cell.dto";
+import {SetCellsDto} from "../board/dto/set-cells.dto";
 
 @Controller('multiboard')
 export class MultiBoardController {
@@ -21,12 +22,15 @@ export class MultiBoardController {
   }
 
   @Put('cell/:id')
-  async setCell(@Param('id') id, @Body(ValidationPipe) data: SetCellDto) {
+  @UsePipes(new ValidationPipe({transform: true}))
+  async setCell(@Param('id') id, @Body() data: SetCellDto) {
     return this.multiBoardService.setCell(Number(id), data.row, data.col);
   }
 
   @Put('cells/:id')
-  async setCells(@Param('id') id, @Body(ValidationPipe) cells: number[][]) {
-    return this.multiBoardService.setCells(Number(id), cells);
+  @UsePipes(new ValidationPipe({transform: true}))
+  async setCells(@Param('id') id, @Body() data: SetCellsDto) {
+    console.log(id, data)
+    return this.multiBoardService.setCells(Number(id), data.cells);
   }
 }
