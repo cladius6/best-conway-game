@@ -1,0 +1,2 @@
+web: npm run build:frontend-2
+web: npm run start:frontend-2
