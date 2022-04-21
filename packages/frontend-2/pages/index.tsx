@@ -5,29 +5,41 @@ import styles from './index.module.css';
 import { useForm } from 'react-hook-form';
 
 export function Index() {
-  const [numberOfCols, _setNumberOfCols] = useState(3);
+  const [numberOfCols, setNumberOfCols] = useState(null);
   const [count, setCount] = useState(0);
   const [intervalId, setIntervalId] = useState<NodeJS.Timeout>(null);
   const [board, setBoard] = useState<IBoard | any>(null);
-  const [isGameReset, setIsGameReset] = useState(false);
-  const [isGameRunning, setIsGameRunning] = useState(false);
-  const [tickInterval, _setTickInterval] = useState<number>(100);
+
+  const [tickInterval, setTickInterval] = useState<number>(100);
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm();
-  const onSubmit = (data) => console.log(data);
-  console.log(errors);
+  const onSizeSubmit = (data) => {
+    GofAPI.resizeBoard({ size: +data.Size });
+    setTimeout(() => {
+      GofAPI.getBoard().then((newBoard) => setBoard(newBoard));
+      setNumberOfCols(data.Size);
+    }, 50);
+  };
+
+  const onSpeedSubmit = (data) => {
+    setTickInterval(+data.Speed);
+  };
 
   useEffect(() => {
-    GofAPI.getBoard().then((newBoard) => setBoard(newBoard));
+    GofAPI.resizeBoard({ size: 3 });
+
+    setTimeout(() => {
+      setNumberOfCols(3);
+      GofAPI.getBoard().then((newBoard) => setBoard(newBoard));
+    }, 50);
   }, []);
 
   const tickGameOfLife = () => {
     GofAPI.tick().then((newBoard) => setBoard(newBoard));
     setCount((prevCount) => prevCount + 1);
-    setIsGameRunning(true);
   };
 
   const autoTickGameOfLife = () => {
@@ -36,7 +48,6 @@ export function Index() {
       setCount((prevCount) => prevCount + 1);
     }, tickInterval);
     setIntervalId(newIntervalId);
-    setIsGameRunning(true);
   };
 
   const pauseGameOfLife = () => {
@@ -45,6 +56,7 @@ export function Index() {
       setIntervalId(null);
       return;
     }
+
     const newIntervalId = setInterval(() => {
       setCount((prevCount) => prevCount + 1);
     }, tickInterval);
@@ -55,10 +67,8 @@ export function Index() {
     if (intervalId) {
       clearInterval(intervalId);
       setIntervalId(null);
-      setIsGameRunning(false);
       return;
     }
-    setIsGameReset(() => true);
     setCount(0);
   };
 
@@ -79,8 +89,13 @@ export function Index() {
             </h1>
           </div>
 
-          <form onSubmit={handleSubmit(onSubmit)}>
+          <form onSubmit={handleSubmit(onSizeSubmit)}>
             <input type="number" placeholder="Size" {...register('Size', {})} />
+
+            <input type="submit" />
+          </form>
+
+          <form onSubmit={handleSubmit(onSpeedSubmit)}>
             <input
               type="number"
               placeholder="Speed"
@@ -105,7 +120,6 @@ export function Index() {
                   <div
                     key={`${i}-${k}`}
                     onClick={() => {
-                      setIsGameRunning(false);
                       GofAPI.toggleCell({ row: i, col: k });
                       const newGrid = JSON.parse(JSON.stringify(board));
                       newGrid[i][k] = board[i][k] ? 0 : 1;
@@ -121,7 +135,6 @@ export function Index() {
                 ))
               )}
           </div>
-
           <button onClick={tickGameOfLife}>PLAY</button>
           <button onClick={autoTickGameOfLife}>AUTO</button>
           <button onClick={pauseGameOfLife}>PAUSE</button>
