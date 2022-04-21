@@ -89,10 +89,10 @@ describe('MultiboardController (e2e)', () => {
   });
 
   // TODO: this exception is not handled
-  it.skip('/cells/1 (PUT) should throw error if cell not pass validation', async () => {
+  it('/cells/1 (PUT) should throw error if cell not pass validation', async () => {
     await request(app.getHttpServer()).put('/multiboard').send({row: 5, col: 5});
     const response = await request(app.getHttpServer()).put('/multiboard/cells/1').send({cells: [[3,3], ["3",4]]});
-    expect(response.status).toBe(404);
+    expect(response.status).toBe(400);
   });
 
 });
