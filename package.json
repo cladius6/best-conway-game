@@ -4,7 +4,7 @@
   "license": "MIT",
   "scripts": {
     "start:frontend": "cd dist/packages/frontend && npx next start",
-    "start:frontend2": "cd dist/packages/frontend-2 && npx next start",
+    "start:frontend-2": "cd dist/packages/frontend-2 && npx next start",
     "build": "nx build --prod --all"
   },
   "private": true,
