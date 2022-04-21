@@ -48,7 +48,7 @@ export function Index() {
           Best conway game
         </h1>
 
-        <table className="board border-collapse border border-slate-500 w-64 mt-10">
+        <table className="board border-collapse border border-slate-500 mt-10">
           <tbody>
             {board.map((row, rowIndex) => {
               return (
@@ -62,7 +62,7 @@ export function Index() {
                           const board = await api.getBoard();
                           setBoard(board);
                         }}
-                        className={`cell border border-slate-700 text-center w-10 h-5 ${
+                        className={`cell border border-slate-700 text-center w-5 h-5 ${
                           cell
                             ? 'bg-slate-700 text-white border-slate-300'
                             : 'bg-white'
