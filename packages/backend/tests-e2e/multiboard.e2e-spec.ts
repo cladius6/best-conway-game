@@ -15,7 +15,7 @@ describe('MultiboardController (e2e)', () => {
     await app.init();
   });
 
-  it.only('/1 (GET) gets board with id correctly', async () => {
+  it('/1 (GET) gets board with id correctly', async () => {
     await request(app.getHttpServer()).put('/multiboard').send({row: 5, col: 5});
     const response = await request(app.getHttpServer()).get('/multiboard/1');
     console.log(response.body);
@@ -32,17 +32,19 @@ describe('MultiboardController (e2e)', () => {
   });
 
   it('/cell/1 (PUT) updates board with id correctly', async () => {
-    await request(app.getHttpServer()).put('/multiboard').send({row: 5, col: 5});
-    const response = await request(app.getHttpServer()).put('/multiboard/1').send({row: 5, col: 5});
-    console.log(response.body);
-    expect(response.body).toEqual({
-      id: "1",
+    const board = await request(app.getHttpServer()).put('/multiboard').send({row: 5, col: 5});
+    console.log(board.body);
+    const response = await request(app.getHttpServer()).put('/multiboard/cell/1').send({row: 3, col: 3});
+    const board1 = await request(app.getHttpServer()).get('/multiboard/1').send({row: 5, col: 5});
+    console.log(board1.body);
+    expect(board1.body).toEqual({
+      id: '1',
       board: [
-        [0, 0, 0, 0, 0],
-        [0, 0, 0, 0, 0],
-        [0, 0, 0, 0, 0],
-        [0, 0, 0, 0, 0],
-        [0, 0, 0, 0, 0],
+        [ 0, 0, 0, 0, 0 ],
+        [ 0, 0, 0, 0, 0 ],
+        [ 0, 0, 0, 0, 0 ],
+        [ 0, 0, 0, 1, 0 ],
+        [ 0, 0, 0, 0, 0 ]
       ]
     })
   });

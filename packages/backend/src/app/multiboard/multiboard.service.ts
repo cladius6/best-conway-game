@@ -21,4 +21,8 @@ export class MultiBoardService {
   getBoard(id: number): number[][] {
     return this.boards[id].board;
   }
+
+  setCell(id: number, row: number, col: number) {
+    this.boards[id].setCell(row, col);
+  }
 }
