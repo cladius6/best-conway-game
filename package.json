@@ -2,7 +2,12 @@
   "name": "conway-game",
   "version": "0.0.0",
   "license": "MIT",
-  "scripts": {},
+  "scripts": {
+    "build:frontend2": "npx nx build --prod frontend-2",
+    "start:frontend2": "cd dist/packages/frontend-2 && npx next start",
+    "build:frontend": "npx nx build --prod frontend",
+    "start:frontend": "cd dist/packages/frontend && npx next start"
+  },
   "private": true,
   "dependencies": {
     "@nestjs/common": "^8.0.0",
