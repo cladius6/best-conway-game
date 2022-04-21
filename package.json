@@ -7,7 +7,7 @@
     "start:frontend2": "cd dist/packages/frontend-2 && npx next start",
     "build:frontend": "nx build --prod frontend",
     "start:frontend": "cd dist/packages/frontend && npx next start",
-    "heroku-postbuild": "npm run build:frontend && npm run build:frontend2"
+    "heroku-postbuild": "npm run build:frontend && npm run build:frontend-2"
   },
   "private": true,
   "dependencies": {
