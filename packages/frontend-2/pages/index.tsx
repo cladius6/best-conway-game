@@ -8,16 +8,17 @@ export function Index() {
   const [intervalId, setIntervalId] = useState<NodeJS.Timeout>(null);
   const [board, setBoard] = useState<IBoard | any>(null);
   const [isGameReset, setIsGameReset] = useState(false);
+  const [isGameRunning, setIsGameRunning] = useState(false);
   const [tickInterval, _setTickInterval] = useState<number>(100);
 
   useEffect(() => {
     GofAPI.getBoard().then((newBoard) => setBoard(newBoard));
-    setIsGameReset(false);
-  }, [isGameReset]);
+  }, []);
 
   const tickGameOfLife = () => {
     GofAPI.tick().then((newBoard) => setBoard(newBoard));
     setCount((prevCount) => prevCount + 1);
+    setIsGameRunning(true);
   };
 
   const autoTickGameOfLife = () => {
@@ -26,6 +27,7 @@ export function Index() {
       setCount((prevCount) => prevCount + 1);
     }, tickInterval);
     setIntervalId(newIntervalId);
+    setIsGameRunning(true);
   };
 
   const pauseGameOfLife = () => {
@@ -44,6 +46,7 @@ export function Index() {
     if (intervalId) {
       clearInterval(intervalId);
       setIntervalId(null);
+      setIsGameRunning(false);
       return;
     }
     setIsGameReset(() => true);
@@ -81,6 +84,13 @@ export function Index() {
                 rows.map((_col, k) => (
                   <div
                     key={`${i}-${k}`}
+                    onClick={() => {
+                      setIsGameRunning(false);
+                      GofAPI.toggleCell({ row: i, col: k });
+                      const newGrid = JSON.parse(JSON.stringify(board));
+                      newGrid[i][k] = board[i][k] ? 0 : 1;
+                      setBoard(newGrid);
+                    }}
                     style={{
                       width: 20,
                       height: 20,

@@ -40,26 +40,21 @@ export class GofAPI {
     return data;
   }
 
-  static async resizeBoard(body: { size: number }) {
+  static async resizeBoard(data: { size: number }) {
     const response = await this.postJson(
       `${this.localUrl}/resize`,
       'POST',
-      body
+      data
     );
     return response.json();
   }
 
-  static async setAliveCell(body: { row: number; col: number }) {
-    const response = await this.postJson(
-      `${this.localUrl}/resize`,
-      'PUT',
-      body
-    );
-    return response.json();
+  static async toggleCell(data: { row: number; col: number }) {
+    await this.postJson(`${this.localUrl}/cell`, 'PUT', data);
   }
 
-  static async setBoard(body: { cells: IBoard }) {
-    const response = await this.postJson(`${this.localUrl}/cells`, 'PUT', body);
+  static async sendBoard(data: number[][]) {
+    const response = await this.postJson(`${this.localUrl}/cells`, 'PUT', data);
     return response.json();
   }
 }
