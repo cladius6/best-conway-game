@@ -1,4 +1,4 @@
-import { Cell } from "./cell";
+import { Cell } from './cell';
 
 export class Board {
   private readonly w: number;
@@ -20,11 +20,11 @@ export class Board {
   }
 
   setCell(x: number, y: number): void {
-    this.board[x][y] === 1 ? (this._board[x][y] = 0) : (this._board[x][y] = 1);
+    this._board[x][y] = this.board[x][y] === 1 ? 0 : 1;
   }
 
   resize(w: number, h: number): void {
-   this.initBoard(w, h);
+    this.initBoard(w, h);
   }
 
   private initBoard(w: number, h: number): void {
