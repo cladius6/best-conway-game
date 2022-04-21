@@ -2,6 +2,8 @@
 import { useEffect, useState } from 'react';
 import { GofAPI, IBoard } from '../helpers/gofAPI';
 import styles from './index.module.css';
+import { useForm } from 'react-hook-form';
+
 export function Index() {
   const [numberOfCols, _setNumberOfCols] = useState(3);
   const [count, setCount] = useState(0);
@@ -10,6 +12,13 @@ export function Index() {
   const [isGameReset, setIsGameReset] = useState(false);
   const [isGameRunning, setIsGameRunning] = useState(false);
   const [tickInterval, _setTickInterval] = useState<number>(100);
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
+  const onSubmit = (data) => console.log(data);
+  console.log(errors);
 
   useEffect(() => {
     GofAPI.getBoard().then((newBoard) => setBoard(newBoard));
@@ -69,6 +78,17 @@ export function Index() {
               Welcome gof-next 👋
             </h1>
           </div>
+
+          <form onSubmit={handleSubmit(onSubmit)}>
+            <input type="number" placeholder="Size" {...register('Size', {})} />
+            <input
+              type="number"
+              placeholder="Speed"
+              {...register('Speed', {})}
+            />
+
+            <input type="submit" />
+          </form>
 
           <div>Number of ticks {count && count}</div>
           <div
