@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "license": "MIT",
   "scripts": {
-    "build": "npx nx build backend --configuration=production && npx nx build frontend-2 --configuration=production",
+    "build": "npx nx build --all --configuration=production",
     "build:backend": "npx nx build backend --configuration=production",
     "start:backend": "node dist/packages/backend/main.js",
     "start": "cd dist/packages/frontend-2 && npx next start",
