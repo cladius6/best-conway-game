@@ -14,4 +14,5 @@ jobs:
           fetch-depth: 0
       - uses: nrwl/nx-set-shas@v2
       - run: npm ci
-      - run: npx nx affected --target=test --all --code-coverage
+      - run: npx nx affected --target=test --code-coverage
+      - run: npx nx affected --target=test:e2e
