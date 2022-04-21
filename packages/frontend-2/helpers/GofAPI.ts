@@ -5,7 +5,7 @@ abstract class GofAPIAbstract {
   static postJson: (
     url: string,
     method: string,
-    data: any
+    data: IBoardResize | ISetCell | ISetCells
   ) => Promise<Response>;
   static getBoard: () => Promise<IBoard>;
   static tick: () => Promise<void>;
@@ -23,7 +23,7 @@ export type IBoard = ICellState[][];
 export class GofAPI extends GofAPIAbstract {
   static localUrl = 'http://localhost:3333/api/board';
 
-  static postJson(url: string, method: string, data: any) {
+  static postJson(url: string, method: string, data) {
     return fetch(url, {
       body: JSON.stringify(data),
       method: method,
