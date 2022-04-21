@@ -3,13 +3,11 @@ import styles from './index.module.css';
 import { GofAPI, IBoard } from '../helpers/GofAPI';
 import { useForm } from 'react-hook-form';
 import useInterval from 'use-interval';
-
 export function Index() {
-  const [numberOfCols, setNumberOfCols] = useState(null);
-  const [count, setCount] = useState(0);
-  const [intervalId, setIntervalId] = useState<NodeJS.Timeout>(null);
-  const [board, setBoard] = useState<IBoard | null>(null);
   const { register, handleSubmit } = useForm();
+  const [board, setBoard] = useState<IBoard | null>(null);
+  const [boardSize, setBoardSize] = useState(null);
+  const [count, setCount] = useState(0);
   const [delay, setDelay] = useState<number>(200);
   const [isRunning, setIsRunning] = useState(false);
 
@@ -21,10 +19,12 @@ export function Index() {
   );
 
   const onSizeSubmit = (data) => {
-    GofAPI.resizeBoard({ size: +data.Size });
+    GofAPI.resizeBoard({
+      size: +data.Size,
+    });
     setTimeout(() => {
       GofAPI.getBoard().then((newBoard) => setBoard(newBoard));
-      setNumberOfCols(data.Size);
+      setBoardSize(data.Size);
     }, 50);
   };
 
@@ -33,10 +33,10 @@ export function Index() {
   };
 
   useEffect(() => {
-    setTimeout(() => {
-      setNumberOfCols(3);
-      GofAPI.getBoard().then((newBoard) => setBoard(newBoard));
-    }, 50);
+    GofAPI.getBoard().then((newBoard) => {
+      setBoardSize(newBoard[0].length);
+      setBoard(newBoard);
+    });
   }, []);
 
   const tickGameOfLife = () => {
@@ -49,28 +49,12 @@ export function Index() {
   };
 
   const pauseGameOfLife = () => {
-    if (intervalId) {
-      clearInterval(intervalId);
-      setIntervalId(null);
-      return;
-    }
     setIsRunning((value) => !value);
   };
 
   const resetGameOfLife = () => {
-    if (intervalId) {
-      clearInterval(intervalId);
-      setIntervalId(null);
-      return;
-    }
     setCount(0);
   };
-
-  /*
-   * Replace the elements below with your own.
-   *
-   * Note: The corresponding styles are in the ./index.css file.
-   */
 
   return (
     <div className={styles.page} onClick={() => console.log(board)}>
@@ -103,7 +87,7 @@ export function Index() {
           <div
             style={{
               display: 'grid',
-              gridTemplateColumns: `repeat(${numberOfCols}, 20px)`,
+              gridTemplateColumns: `repeat(${boardSize}, 20px)`,
               width: 'fit-content',
               margin: '0 auto',
             }}
@@ -114,7 +98,10 @@ export function Index() {
                   <div
                     key={`${i}-${k}`}
                     onClick={() => {
-                      GofAPI.toggleCell({ row: i, col: k });
+                      GofAPI.toggleCell({
+                        row: i,
+                        col: k,
+                      });
                       const newGrid = JSON.parse(JSON.stringify(board));
                       newGrid[i][k] = board[i][k] ? 0 : 1;
                       setBoard(newGrid);
