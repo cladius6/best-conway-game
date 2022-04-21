@@ -2,6 +2,7 @@ import {Body, Controller, Get, Post, Put, UsePipes, ValidationPipe} from '@nestj
 import {BoardService} from "./board.service";
 import {ResizeBoardDto} from "./dto/resize-board.dto";
 import {SetCellDto} from "./dto/set-cell.dto";
+import {SetCellsDto} from "./dto/set-cells.dto";
 
 @Controller('board')
 export class BoardController {
@@ -27,7 +28,8 @@ export class BoardController {
   }
 
   @Put('cells')
-  setCells(@Body() data): string {
+  @UsePipes(new ValidationPipe({ transform: true }))
+  setCells(@Body() data: SetCellsDto): string {
     this.boardService.setCells(data.cells);
     return 'Cells set';
   }
