@@ -3,9 +3,10 @@
   "version": "0.0.0",
   "license": "MIT",
   "scripts": {
-    "build": "npx nx build backend --configuration=production && npx nx build frontend --configuration=production",
+    "build": "npx nx build backend --configuration=production && npx nx build frontend-2 --configuration=production",
     "build:backend": "npx nx build backend --configuration=production",
     "start:backend": "node dist/packages/backend/main.js",
+    "start": "cd dist/packages/frontend-2 && npx next start",
     "start2:backend": "nx serve backend prod"
   },
   "private": true,
