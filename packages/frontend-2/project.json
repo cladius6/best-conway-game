@@ -19,7 +19,8 @@
       "executor": "@nrwl/next:server",
       "options": {
         "buildTarget": "frontend-2:build",
-        "dev": true
+        "dev": true,
+        "proxyConfig": "packages/frontend2/proxy.conf.json"
       },
       "configurations": {
         "production": {
