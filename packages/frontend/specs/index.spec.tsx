@@ -1,7 +1,7 @@
 import { FC, ReactNode } from 'react';
 import { render } from '@testing-library/react';
-import { act } from 'react-dom/test-utils';
 import Index, { HomePageContext } from '../pages/index';
+import { ISetCell } from '@conway-game/interfaces';
 
 interface TestProviderProps {
   children: ReactNode;
@@ -14,7 +14,7 @@ const TestProvider: FC<TestProviderProps> = ({ children }) => {
         getBoard: async () => [],
         resizeBoard: async (size: number) => undefined,
         setCells: async (cells: number[][]) => undefined,
-        setCell: async (row: number, col: number) => undefined,
+        setCell: async (cell: ISetCell) => undefined,
         tick: async () => [],
       }}
     >
