@@ -1,4 +1,3 @@
-// import { GameOfLife, IBoard } from '@game-of-life-new/gof-tsc';
 import { useEffect, useState } from 'react';
 import { GofAPI, IBoard } from '../helpers/gofAPI';
 import styles from './index.module.css';
@@ -8,14 +7,10 @@ export function Index() {
   const [numberOfCols, setNumberOfCols] = useState(null);
   const [count, setCount] = useState(0);
   const [intervalId, setIntervalId] = useState<NodeJS.Timeout>(null);
-  const [board, setBoard] = useState<IBoard | any>(null);
+  const [board, setBoard] = useState<IBoard | null>(null);
 
   const [tickInterval, setTickInterval] = useState<number>(100);
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm();
+  const { register, handleSubmit } = useForm();
   const onSizeSubmit = (data) => {
     GofAPI.resizeBoard({ size: +data.Size });
     setTimeout(() => {
@@ -105,7 +100,7 @@ export function Index() {
             <input type="submit" />
           </form>
 
-          <div>Number of ticks {count && count}</div>
+          <div>Number of ticks {count}</div>
           <div
             style={{
               display: 'grid',
