@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
-import { GofAPI, IBoard } from '../helpers/GofAPI';
 import styles from './index.module.css';
 import { useForm } from 'react-hook-form';
+import { GofAPI, IBoard } from '../helpers/gofAPI';
 
 export function Index() {
   const [numberOfCols, setNumberOfCols] = useState(null);
