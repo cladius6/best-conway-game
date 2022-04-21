@@ -24,13 +24,20 @@ export class MultiBoardController {
   @Put('cell/:id')
   @UsePipes(new ValidationPipe({transform: true}))
   async setCell(@Param('id') id, @Body() data: SetCellDto) {
-    return this.multiBoardService.setCell(Number(id), data.row, data.col);
+    this.multiBoardService.setCell(Number(id), data.row, data.col);
+    return {
+      id: id,
+      board: this.multiBoardService.getBoard(Number(id))
+    };
   }
 
   @Put('cells/:id')
   @UsePipes(new ValidationPipe({transform: true}))
   async setCells(@Param('id') id, @Body() data: SetCellsDto) {
-    console.log(id, data)
-    return this.multiBoardService.setCells(Number(id), data.cells);
+    this.multiBoardService.setCells(Number(id), data.cells);
+    return {
+      id: id,
+      board: this.multiBoardService.getBoard(Number(id))
+    };
   }
 }
