@@ -1,18 +1,19 @@
 import { createContext } from 'react';
 import Board from '../components/Board';
 import { api } from '../config/api';
+import { ISetCell } from '@conway-game/interfaces';
 
 export const HomePageContext = createContext<{
   getBoard: () => Promise<number[][]>;
   resizeBoard: (size: number) => void;
   setCells: (cells: number[][]) => void;
-  setCell: (row: number, col: number) => void;
+  setCell: (cell: ISetCell) => void;
   tick: () => Promise<number[][]>;
 }>({
   getBoard: async () => await api.getBoard(),
   resizeBoard: async (size: number) => await api.resizeBoard(size),
   setCells: async (cells: number[][]) => await api.setCells(cells),
-  setCell: async (row: number, col: number) => await api.setCell(row, col),
+  setCell: async (cell: ISetCell) => await api.setCell(cell),
   tick: async () => await api.tick(),
 });
 

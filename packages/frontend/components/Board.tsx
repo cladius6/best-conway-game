@@ -59,7 +59,10 @@ const Board: FC<BoardProps> = ({ size }) => {
                     <td
                       key={cellIndex}
                       onClick={async () => {
-                        await setCell(rowIndex, cellIndex);
+                        await setCell({
+                          row: rowIndex,
+                          col: cellIndex,
+                        });
                         const board = await getBoard();
                         setBoard(board);
                       }}

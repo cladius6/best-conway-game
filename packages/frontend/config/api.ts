@@ -1,3 +1,5 @@
+import { ISetCell } from '@conway-game/interfaces';
+
 async function getBoard() {
   const res = await fetch('/api/board');
   return await res.json();
@@ -25,15 +27,15 @@ async function setCells(cells: number[][]) {
   });
 }
 
-async function setCell(row: number, col: number) {
+async function setCell(cell: ISetCell) {
   return await fetch('/api/board/cell', {
     method: 'PUT',
     headers: {
       'Content-Type': 'application/json',
     },
     body: JSON.stringify({
-      row,
-      col,
+      row: cell.row,
+      col: cell.col,
     }),
   });
 }
