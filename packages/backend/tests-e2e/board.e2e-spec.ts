@@ -66,7 +66,7 @@ describe('BoardController (e2e)', () => {
     await request(app.getHttpServer()).put('/board/cell').send({row: 1, col: 1})
     await request(app.getHttpServer()).put('/board/cell').send({row: 2, col: 1})
     await request(app.getHttpServer()).put('/board/cell').send({row: 3, col: 2})
-    let response = await request(app.getHttpServer()).get('/board');
+    const response = await request(app.getHttpServer()).get('/board');
     console.log(response.body)
     const response2 = await request(app.getHttpServer()).get('/board/tick');
     console.log(response2.body)

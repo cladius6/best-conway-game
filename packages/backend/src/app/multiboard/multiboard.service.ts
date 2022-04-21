@@ -5,7 +5,7 @@ import {BoardService} from "../board/board.service";
 @Injectable()
 export class MultiBoardService {
   boards: Board[] = [];
-  id: number = 0;
+  id = 0;
   constructor(private boardService: BoardService) {
     if(this.boards.length === 0) {
       this.boards.push(this.boardService.createBoard(3, 3));

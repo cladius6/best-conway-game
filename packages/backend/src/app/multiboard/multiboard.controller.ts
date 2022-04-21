@@ -1,4 +1,4 @@
-import {Body, Controller, Get, Param, Post, Put, UsePipes, ValidationPipe} from '@nestjs/common';
+import {Body, Controller, Get, Param, Put, UsePipes, ValidationPipe} from '@nestjs/common';
 import {MultiBoardService} from "./multiboard.service";
 import {SetCellDto} from "../board/dto/set-cell.dto";
 import {SetCellsDto} from "../board/dto/set-cells.dto";
