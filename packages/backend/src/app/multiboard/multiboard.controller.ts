@@ -24,4 +24,9 @@ export class MultiBoardController {
   async setCell(@Param('id') id, @Body(ValidationPipe) data: SetCellDto) {
     return this.multiBoardService.setCell(Number(id), data.row, data.col);
   }
+
+  @Put('cells/:id')
+  async setCells(@Param('id') id, @Body(ValidationPipe) cells: number[][]) {
+    return this.multiBoardService.setCells(Number(id), cells);
+  }
 }
