@@ -1,4 +1,20 @@
+import { createContext } from 'react';
 import Board from '../components/Board';
+import { api } from '../config/api';
+
+export const HomePageContext = createContext<{
+  getBoard: () => Promise<number[][]>;
+  resizeBoard: (size: number) => void;
+  setCells: (cells: number[][]) => void;
+  setCell: (row: number, col: number) => void;
+  tick: () => Promise<number[][]>;
+}>({
+  getBoard: async () => await api.getBoard(),
+  resizeBoard: async (size: number) => await api.resizeBoard(size),
+  setCells: async (cells: number[][]) => await api.setCells(cells),
+  setCell: async (row: number, col: number) => await api.setCell(row, col),
+  tick: async () => await api.tick(),
+});
 
 export function Index() {
   return (
