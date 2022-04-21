@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { GofAPI, IBoard } from '../helpers/gofAPI';
+import { GofAPI, IBoard } from '../helpers/GofAPI';
 import styles from './index.module.css';
 import { useForm } from 'react-hook-form';
 
