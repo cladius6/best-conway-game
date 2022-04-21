@@ -1,21 +1,26 @@
-// abstract class GofAPIAbstract {
-//   static postJson: (
-//     url: string,
-//     method: string,
-//     data: any
-//   ) => Promise<>;
-//   static getBoard: () => Promise<[]>;
-//   static create: (workout: ) => Promise<>;
-//   static update: (workout: ) => Promise<>;
-//   static delete: (workoutId: number) => Promise<void>;
-// }
+import { ISetCell, ISetCells, IBoardResize } from '@conway-game/interfaces';
+
+abstract class GofAPIAbstract {
+  static localUrl: string;
+  static postJson: (
+    url: string,
+    method: string,
+    data: any
+  ) => Promise<Response>;
+  static getBoard: () => Promise<IBoard>;
+  static tick: () => Promise<void>;
+  static resizeBoard: (data: IBoardResize) => Promise<void>;
+  static toggleCell: (data: ISetCell) => Promise<void>;
+  static sendCells: (data: ISetCells) => Promise<void>;
+}
+
 export type ICellState = 1 | 0;
 
 export type INumberOfNeighbors = 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8;
 
 export type IBoard = ICellState[][];
 
-export class GofAPI {
+export class GofAPI extends GofAPIAbstract {
   static localUrl = 'http://localhost:3333/api/board';
 
   static postJson(url: string, method: string, data: any) {
@@ -41,19 +46,14 @@ export class GofAPI {
   }
 
   static async resizeBoard(data: { size: number }) {
-    const response = await this.postJson(
-      `${this.localUrl}/resize`,
-      'POST',
-      data
-    );
-    return response.json();
+    await this.postJson(`${this.localUrl}/resize`, 'POST', data);
   }
 
-  static async toggleCell(data: { row: number; col: number }) {
+  static async toggleCell(data: ISetCell) {
     await this.postJson(`${this.localUrl}/cell`, 'PUT', data);
   }
 
-  static async sendBoard(data: number[][]) {
+  static async sendCells(data: ISetCells) {
     const response = await this.postJson(`${this.localUrl}/cells`, 'PUT', data);
     return response.json();
   }
