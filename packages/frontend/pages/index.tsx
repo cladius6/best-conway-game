@@ -58,7 +58,6 @@ export function Index() {
                       <td
                         key={cellIndex}
                         onClick={async () => {
-                          // TODO (hub33k): after tick() new added cells disappear
                           await api.setCell(rowIndex, cellIndex);
                           const board = await api.getBoard();
                           setBoard(board);
