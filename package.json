@@ -3,11 +3,8 @@
   "version": "0.0.0",
   "license": "MIT",
   "scripts": {
-    "build:frontend2": "nx build --prod frontend-2",
-    "start:frontend2": "cd dist/packages/frontend-2 && npx next start",
-    "build:frontend": "nx build --prod frontend",
     "start:frontend": "cd dist/packages/frontend && npx next start",
-    "heroku-postbuild": "npm run build:frontend && npm run build:frontend-2"
+    "build": "nx build --prod --all"
   },
   "private": true,
   "dependencies": {
