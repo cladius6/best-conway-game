@@ -21,18 +21,20 @@ export function Index() {
   );
 
   const onSizeChange = (data) => {
-    setCount(0);
+    if (+data.Size === boardSize) return;
+
     setIsRunning(false);
+
     GofAPI.resizeBoard({
       size: +data.Size,
     });
+
     setTimeout(() => {
       GofAPI.getBoard().then((newBoard) => setBoard(newBoard));
-      setBoardSize(data.Size);
     }, 50);
   };
 
-  const onSpeedSubmit = (data) => {
+  const onSpeedChange = (data) => {
     setDelay(+data.Speed);
   };
 
@@ -48,11 +50,7 @@ export function Index() {
     setCount((prevCount) => prevCount + 1);
   };
 
-  const autoTickGameOfLife = () => {
-    setIsRunning((value) => !value);
-  };
-
-  const pauseGameOfLife = () => {
+  const toggleAutoTickGameOfLife = () => {
     setIsRunning((value) => !value);
   };
 
@@ -74,19 +72,28 @@ export function Index() {
             </h1>
           </div>
 
-          <form onChange={handleSubmit(onSizeChange)}>
+          <form
+            onChange={handleSubmit(onSizeChange)}
+            onSubmit={(event) => event.preventDefault()}
+          >
             <input
               type="number"
               placeholder="Size"
+              max={100}
+              min={1}
               value={boardSize || ''}
               {...register('Size', {})}
             />
           </form>
 
-          <form onChange={handleSubmit(onSpeedSubmit)}>
+          <form
+            onChange={handleSubmit(onSpeedChange)}
+            onSubmit={(event) => event.preventDefault()}
+          >
             <input
               type="number"
               placeholder="Speed"
+              min={1}
               value={delay || ''}
               {...register('Speed', {})}
             />
@@ -126,8 +133,8 @@ export function Index() {
               )}
           </div>
           <button onClick={tickGameOfLife}>PLAY</button>
-          <button onClick={autoTickGameOfLife}>AUTO</button>
-          <button onClick={pauseGameOfLife}>PAUSE</button>
+          <button onClick={toggleAutoTickGameOfLife}>AUTO</button>
+          <button onClick={toggleAutoTickGameOfLife}>PAUSE</button>
           <button onClick={resetGameOfLife}>RESET</button>
 
           <p id="love">
