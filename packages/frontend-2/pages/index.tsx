@@ -21,6 +21,8 @@ export function Index() {
   );
 
   const onSizeChange = (data) => {
+    setCount(0);
+    setIsRunning(false);
     GofAPI.resizeBoard({
       size: +data.Size,
     });
@@ -56,6 +58,7 @@ export function Index() {
 
   const resetGameOfLife = () => {
     setCount(0);
+    setIsRunning(false);
     const aliveCells = getAliveCellsCoordinates(board);
     GofAPI.sendCells(aliveCells);
   };
