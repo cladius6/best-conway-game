@@ -20,7 +20,7 @@ export function Index() {
     isRunning ? delay : null
   );
 
-  const onSizeSubmit = (data) => {
+  const onSizeChange = (data) => {
     GofAPI.resizeBoard({
       size: +data.Size,
     });
@@ -71,17 +71,20 @@ export function Index() {
             </h1>
           </div>
 
-          <form onSubmit={handleSubmit(onSizeSubmit)}>
-            <input type="number" placeholder="Size" {...register('Size', {})} />
-
-            <input type="submit" />
+          <form onChange={handleSubmit(onSizeChange)}>
+            <input
+              type="number"
+              placeholder="Size"
+              value={boardSize || ''}
+              {...register('Size', {})}
+            />
           </form>
 
           <form onChange={handleSubmit(onSpeedSubmit)}>
             <input
               type="number"
               placeholder="Speed"
-              value={delay}
+              value={delay || ''}
               {...register('Speed', {})}
             />
           </form>
