@@ -1,8 +1,10 @@
+import { getAliveCellsCoordinates } from '../helpers/getAliveCellsCoordinates';
 import { useEffect, useState } from 'react';
-import styles from './index.module.css';
-import { GofAPI, IBoard } from '../helpers/GofAPI';
 import { useForm } from 'react-hook-form';
 import useInterval from 'use-interval';
+import styles from './index.module.css';
+import { GofAPI, IBoard } from '../helpers/GofAPI';
+
 export function Index() {
   const { register, handleSubmit } = useForm();
   const [board, setBoard] = useState<IBoard | null>(null);
@@ -37,7 +39,7 @@ export function Index() {
       setBoardSize(newBoard[0].length);
       setBoard(newBoard);
     });
-  }, []);
+  }, [board]);
 
   const tickGameOfLife = () => {
     GofAPI.tick().then((newBoard) => setBoard(newBoard));
@@ -54,10 +56,12 @@ export function Index() {
 
   const resetGameOfLife = () => {
     setCount(0);
+    const aliveCells = getAliveCellsCoordinates(board);
+    GofAPI.sendCells(aliveCells);
   };
 
   return (
-    <div className={styles.page} onClick={() => console.log(board)}>
+    <div className={styles.page}>
       <div className="wrapper">
         <div className="container">
           <div id="welcome">
@@ -73,14 +77,13 @@ export function Index() {
             <input type="submit" />
           </form>
 
-          <form onSubmit={handleSubmit(onSpeedSubmit)}>
+          <form onChange={handleSubmit(onSpeedSubmit)}>
             <input
               type="number"
               placeholder="Speed"
+              value={delay}
               {...register('Speed', {})}
             />
-
-            <input type="submit" />
           </form>
 
           <div>Number of ticks {count}</div>
